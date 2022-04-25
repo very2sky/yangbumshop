@@ -1,17 +1,20 @@
 package com.yangshop.yangbum.controller;
 
-import com.yangshop.yangbum.service.MemberService;
+import com.yangshop.yangbum.constant.Role;
 import com.yangshop.yangbum.dto.MemberFormDto;
-import com.yangshop.yangbum.entity.Member;
+import com.yangshop.yangbum.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yangshop.yangbum.entity.Member;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.validation.BindingResult;
 import javax.validation.Valid;
 
 @RequestMapping("/members")
@@ -27,6 +30,10 @@ public class MemberController {
         model.addAttribute("memberFormDto", new MemberFormDto());
         return "member/memberForm";
     }
+    @ModelAttribute("role")
+    private Role[] roles(){
+        return Role.values();
+    }
 
     @PostMapping(value = "/new")
     public String newMember(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model){
@@ -34,7 +41,6 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             return "member/memberForm";
         }
-
         try {
             Member member = Member.createMember(memberFormDto, passwordEncoder);
             memberService.saveMember(member);
@@ -56,6 +62,7 @@ public class MemberController {
         model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요");
         return "/member/memberLoginForm";
     }
+
 
 
 }

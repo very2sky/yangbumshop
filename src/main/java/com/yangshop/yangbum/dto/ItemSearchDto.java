@@ -4,8 +4,7 @@ import com.yangshop.yangbum.constant.ItemSellStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 public class ItemSearchDto {
 
     private String searchDateType;

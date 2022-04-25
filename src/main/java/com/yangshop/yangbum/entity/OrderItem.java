@@ -2,13 +2,10 @@ package com.yangshop.yangbum.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 public class OrderItem extends BaseEntity {
 
     @Id @GeneratedValue
@@ -26,6 +23,7 @@ public class OrderItem extends BaseEntity {
     private int orderPrice; //주문가격
 
     private int count; //수량
+
     public static OrderItem createOrderItem(Item item, int count){
         OrderItem orderItem = new OrderItem();
         orderItem.setItem(item);
@@ -42,6 +40,5 @@ public class OrderItem extends BaseEntity {
     public void cancel() {
         this.getItem().addStock(count);
     }
-
 
 }

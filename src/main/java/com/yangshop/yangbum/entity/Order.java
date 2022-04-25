@@ -3,16 +3,17 @@ package com.yangshop.yangbum.entity;
 import com.yangshop.yangbum.constant.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="orders")
-@Getter@Setter
-public class Order {
+@Table(name = "orders")
+@Getter @Setter
+public class Order extends BaseEntity {
+
     @Id @GeneratedValue
     @Column(name = "order_id")
     private Long id;
@@ -26,11 +27,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus; //주문상태
 
-    private LocalDateTime regTime;
-
-    private LocalDateTime updateTime;
-
-    @OneToMany(mappedBy ="order", cascade =CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL
+            , orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public void addOrderItem(OrderItem orderItem) {
@@ -65,4 +63,5 @@ public class Order {
             orderItem.cancel();
         }
     }
+
 }
